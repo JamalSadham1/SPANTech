@@ -1,0 +1,102 @@
+﻿@model SPANTech.Models.CDefaults
+@{
+    ViewBag.Title = "ViewDatas";
+}
+@using (Html.BeginForm("ViewDatas", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <h2></h2>
+    <h2></h2>
+    <br />
+    <br />
+    <div class="form-group-sm">
+        @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+            @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+        </div>
+
+        @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+            @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="submit" class="btn btn-default" />
+        </div>
+    </div>
+    <div class="form-horizontal">
+        <div style="width:90%; margin:0 auto">
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayName("State")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Date")
+                        </th>
+                        <th>
+                            @Html.DisplayName("New_Cases")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Recoverys")
+                        </th>
+                        <th>
+                            @Html.DisplayName("Deaths")
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.GetInputs)
+                {
+                    <tr>
+                        <td>
+                            @item.StateName
+                        </td>
+                        <td>
+                            @item.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.New_Cases
+                        </td>
+                        <td>
+                            @item.Recoverys
+                        </td>
+                        <td>
+                            @item.Deaths
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <link href="//cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+        @section Scripts{
+            <script src="//cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+            <script>
+                $(document).ready(function () {
+
+                    $('#myTable').DataTable({
+
+                    });
+                });
+            </script>
+        }
+        <script>
+            $(document).ready(function ($) {
+                $("#myTable").dataTable();
+            })
+        </script>
+    </div>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "dd-mm-yy",
+                changemonth: true,
+                changeyear: true
+            });
+        });
+    </script>
+}
